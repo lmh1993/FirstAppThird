@@ -1,6 +1,7 @@
-export const environment = {
-  production: true
-};
+export class Hero {
+  id: number;
+  name: string;
+}
 
 
 /*
