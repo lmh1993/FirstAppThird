@@ -9,7 +9,7 @@ app.use(express.static(__dirname + '/dist/out-tsc'));
 
 app.get('/*', function(req,res) {
     
-res.sendFile(path.join(__dirname+'/docs/index.html'));
+res.sendFile(path.join(__dirname+'/dist/out-tsc/index.html'));
 });
 
 // Start the app by listening on the default Heroku port
