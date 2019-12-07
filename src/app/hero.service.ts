@@ -1,6 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
 import { Hero } from './hero';
-import { HEROES } from './mock-heroes';
 import { Observable, of } from 'rxjs';
 import { MessageService } from './message.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -53,7 +52,7 @@ export class HeroService {
   }
 
   /** GET hero by id. Return `undefined` when id not found */
-  getHeroNo404<Data>(id: number): Observable<Hero> {
+  getHeroNo404<Data>(id: string): Observable<Hero> {
     const url = `${this.baseUrl}${this.heroesUrl}/?id=${id}`;
     return this.http.get<Hero[]>(url)
       .pipe(
@@ -77,7 +76,7 @@ export class HeroService {
   }
 
   /** GET hero by id. Will 404 if id not found */
-  getHero(id: number): Observable<Hero> {
+  getHero(id: string): Observable<Hero> {
     const url = `${this.baseUrl}${this.heroesUrl}/${id}`;
     return this.http.get<Hero>(url).pipe(
       tap(_ => this.log(`fetched hero id=${id}`)),
@@ -119,7 +118,7 @@ export class HeroService {
   }
 
   /** PUT: update the hero on the server */
-  updateHero(id: number, hero: Hero): Observable<any> {
+  updateHero(id: string, hero: Hero): Observable<any> {
     const url = `${this.baseUrl}${this.heroesUrl}/${id}`;
     return this.http.put(url, hero, this.httpOptions).pipe(
       tap(_ => this.log(`updated hero id=${hero.id}`)),
