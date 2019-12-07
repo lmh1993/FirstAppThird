@@ -71,23 +71,33 @@ function handleError(res, reason, message, code) {
     //   create a function getNextSequenceValue which will take the sequence name as its input, 
     //   increment the sequence number by 1 and return the updated sequence number. In this case, 
     //   the sequence name is heroid.
-    function getNextSequenceValue(sequenceName){
+    // function getNextSequenceValue(sequenceName){
 
-        var sequenceDocument = db.collection(COUNTERS_COLLECTION).findAndModify({
-            query:{_id: sequenceName },
-            update: {_id: sequenceName , {$inc:{sequence_value:1}}},
-            new:true
-        });
+    //     var sequenceDocument = db.collection(COUNTERS_COLLECTION).findAndModify({
+    //         query:{_id: sequenceName },
+    //         update: {_id: sequenceName , {$inc:{sequence_value:1}}},
+    //         new:true
+    //     });
         
-        return sequenceDocument.sequence_value;
-    }
+    //     return sequenceDocument.sequence_value;
+    // }
 
     var newContact = req.body;
     newContact.createDate = new Date();  
     if (!req.body.name) {
       handleError(res, "Invalid user input", "Must provide a name.", 400);
     } else {
-        newContact._id = getNextSequenceValue("heroid");
+        newContact._id = function getNextSequenceValue(){
+
+            var sequenceDocument = db.collection(COUNTERS_COLLECTION).findAndModify({
+                query:{_id: "heroid" },
+                update: {_id: sequenceName , {$inc:{sequence_value:1}}},
+                new:true
+            });
+            
+            return sequenceDocument.sequence_value;
+        };
+
         db.collection(CONTACTS_COLLECTION).insertOne(newContact, function(err, doc) {
         if (err) {
           handleError(res, err.message, "Failed to create new contact.");
