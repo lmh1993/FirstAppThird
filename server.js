@@ -82,7 +82,8 @@ function handleError(res, reason, message, code) {
                 update:{$inc:{sequence_value:1}},
                 new:true
             });
-            return sequenceDocument.sequence_value;
+            return 1;
+            //return sequenceDocument.sequence_value;
         })();
 
         db.collection(CONTACTS_COLLECTION).insertOne(newContact, function(err, doc) {
