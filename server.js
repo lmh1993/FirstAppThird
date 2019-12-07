@@ -30,10 +30,8 @@ console.log("Database connection ready");
 // Serve only the static files form the dist directory
 app.use(express.static(__dirname + '/docs'));
 
-
 app.get('/*', function(req,res) {
-    
-res.sendFile(path.join(__dirname+'/docs/index.html'));
+    res.sendFile(path.join(__dirname+'/docs/index.html'));
 });
 
 // Start the app by listening on the default Heroku port
@@ -43,7 +41,7 @@ var server = app.listen(process.env.PORT || 8080, function () {
   });
 });
 
-// CONTACTS API ROUTES BELOW
+// Generate API ROUTES BELOW
 
 // Generic error handler used by all endpoints.
 function handleError(res, reason, message, code) {
@@ -90,10 +88,35 @@ function handleError(res, reason, message, code) {
    */
   
   app.get("/api/contacts/:id", function(req, res) {
+    db.collection(CONTACTS_COLLECTION).findOne({ _id: new ObjectID(req.params.id) }, function(err, doc) {
+        if (err) {
+          handleError(res, err.message, "Failed to get contact");
+        } else {
+          res.status(200).json(doc);
+        }
+      });
   });
   
   app.put("/api/contacts/:id", function(req, res) {
+    var updateDoc = req.body;
+    delete updateDoc._id;
+  
+    db.collection(CONTACTS_COLLECTION).updateOne({_id: new ObjectID(req.params.id)}, updateDoc, function(err, doc) {
+      if (err) {
+        handleError(res, err.message, "Failed to update contact");
+      } else {
+        updateDoc._id = req.params.id;
+        res.status(200).json(updateDoc);
+      }
+    });
   });
   
   app.delete("/api/contacts/:id", function(req, res) {
+    db.collection(CONTACTS_COLLECTION).deleteOne({_id: new ObjectID(req.params.id)}, function(err, result) {
+        if (err) {
+          handleError(res, err.message, "Failed to delete contact");
+        } else {
+          res.status(200).json(req.params.id);
+        }
+      });
   });
