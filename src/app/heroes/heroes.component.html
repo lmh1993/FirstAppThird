@@ -1,7 +1,7 @@
 <h2>My Heroes</h2>
 <!-- <div *ngIf="selectedHero">
     <h2>{{ selectedHero.name | uppercase }} Details</h2>
-    <div><span>id:</span>{{ selectedHero.id }} </div>
+    <div><span>id:</span>{{ selectedhero._id }} </div>
 </div> -->
 <div>
     <label>Hero name:
@@ -18,8 +18,8 @@
     *ngFor="let hero of heroes" 
     (click)="onSelect(hero)"> -->
     <li *ngFor="let hero of heroes">
-        <a routerLink="/detail/{{hero.id}}">
-            <span class="badge">{{hero.id}}</span> {{hero.name}}
+        <a routerLink="/detail/{{hero._id}}">
+            <span class="badge">{{hero._id}}</span> {{hero.name}}
         </a>
         <button class="delete" title="delete hero" (click)="delete(hero)">x</button>
     </li>

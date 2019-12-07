@@ -23,14 +23,14 @@ export class HeroService {
   /** POST: add a new hero to the server */
   addHero(hero: Hero): Observable<Hero> {
     return this.http.post<Hero>(this.heroesUrl, hero, this.httpOptions).pipe(
-      tap((newHero: Hero) => this.log(`added hero ${newHero.name}   id=${newHero.id}`)),
+      tap((newHero: Hero) => this.log(`added hero ${newHero.name}   id=${newHero._id}`)),
       catchError(this.handleError<Hero>('addHero'))
     );
   }
 
   /** DELETE: delete the hero from the server */
   deleteHero (hero: Hero | number): Observable<Hero> {
-    const id = typeof hero === 'number' ? hero : hero.id;
+    const id = typeof hero === 'number' ? hero : hero._id;
     const url = `${this.heroesUrl}/${id}`;
 
     return this.http.delete<Hero>(url, this.httpOptions).pipe(
@@ -67,7 +67,7 @@ export class HeroService {
 
   // getHero(id:number): Observable<Hero> {
   //   this.messageService.add(`HeroService: fetched hero id=${id}`);
-  //   return of(HEROES.find(hero => hero.id === id));
+  //   return of(HEROES.find(hero => hero._id === id));
   // }
 
   private log(message: string) {
@@ -120,7 +120,7 @@ export class HeroService {
   updateHero(id: string, hero: Hero): Observable<any> {
     const url = `${this.heroesUrl}/${id}`;
     return this.http.put(url, hero, this.httpOptions).pipe(
-      tap(_ => this.log(`updated hero id=${hero.id}`)),
+      tap(_ => this.log(`updated hero id=${hero._id}`)),
       catchError(this.handleError<any>('updateHero'))
     );
   }
