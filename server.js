@@ -88,7 +88,6 @@ function handleError(res, reason, message, code) {
       handleError(res, "Invalid user input", "Must provide a name.", 400);
     } else {
         newContact._id = (function getNextSequenceValue(){
-
             // var sequenceDocument = db.collection(COUNTERS_COLLECTION).findAndModify({
             //     query:{_id: "heroid" },
             //     update:{$inc:{sequence_value:1}},
@@ -96,7 +95,7 @@ function handleError(res, reason, message, code) {
             // });
             return 100100;
             //return sequenceDocument.sequence_value;
-        }();
+        })();
 
         db.collection(CONTACTS_COLLECTION).insertOne(newContact, function(err, doc) {
         if (err) {
