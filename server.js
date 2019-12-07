@@ -68,33 +68,21 @@ function handleError(res, reason, message, code) {
   
     
   app.post("/api/contacts", function(req, res) {
-    //   create a function getNextSequenceValue which will take the sequence name as its input, 
-    //   increment the sequence number by 1 and return the updated sequence number. In this case, 
-    //   the sequence name is heroid.
-    // function getNextSequenceValue(sequenceName){
-
-    //     var sequenceDocument = db.collection(COUNTERS_COLLECTION).findAndModify({
-    //         query:{_id: sequenceName },
-    //         update: {_id: sequenceName , {$inc:{sequence_value:1}}},
-    //         new:true
-    //     });
-        
-    //     return sequenceDocument.sequence_value;
-    // }
-
     var newContact = req.body;
     newContact.createDate = new Date();  
     if (!req.body.name) {
       handleError(res, "Invalid user input", "Must provide a name.", 400);
     } else {
+        //   create a function getNextSequenceValue which will take the sequence name as its input, 
+        //   increment the sequence number by 1 and return the updated sequence number. In this case, 
+        //   the sequence name is heroid.
         newContact._id = (function getNextSequenceValue(){
-            // var sequenceDocument = db.collection(COUNTERS_COLLECTION).findAndModify({
-            //     query:{_id: "heroid" },
-            //     update:{$inc:{sequence_value:1}},
-            //     new:true
-            // });
-            return 100100;
-            //return sequenceDocument.sequence_value;
+            var sequenceDocument = db.collection(COUNTERS_COLLECTION).findAndModify({
+                query:{_id: "heroid" },
+                update:{$inc:{sequence_value:1}},
+                new:true
+            });
+            return sequenceDocument.sequence_value;
         })();
 
         db.collection(CONTACTS_COLLECTION).insertOne(newContact, function(err, doc) {
