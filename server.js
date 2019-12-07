@@ -8,6 +8,7 @@ const path = require('path');
 var CONTACTS_COLLECTION = "contacts";
 var COUNTERS_COLLECTION = "counters";
 
+
 const app = express();
 app.use(bodyParser.json());
 
@@ -70,25 +71,34 @@ function handleError(res, reason, message, code) {
     //   create a function getNextSequenceValue which will take the sequence name as its input, 
     //   increment the sequence number by 1 and return the updated sequence number. In this case, 
     //   the sequence name is heroid.
-    function getNextSequenceValue(sequenceName){
+    // function getNextSequenceValue(sequenceName){
+
+    //     var sequenceDocument = db.collection(COUNTERS_COLLECTION).findAndModify({
+    //         query:{_id: sequenceName },
+    //         update: {$inc:{sequence_value:1}},
+    //         new:true
+    //     });
+        
+    //     return sequenceDocument.sequence_value;
+    // }
+
+    var newContact = req.body;
+    newContact.createDate = new Date();
+    newContact._id = function getNextSequenceValue(){
 
         var sequenceDocument = db.collection(COUNTERS_COLLECTION).findAndModify({
-            query:{_id: sequenceName },
+            query:{_id: "heroid" },
             update: {$inc:{sequence_value:1}},
             new:true
         });
         
         return sequenceDocument.sequence_value;
-    }
-
-    var newContact = req.body;
-    newContact.createDate = new Date();
-    newContact._id = 10;
+    };
   
     if (!req.body.name) {
       handleError(res, "Invalid user input", "Must provide a name.", 400);
     } else {
-
+        
       db.collection(CONTACTS_COLLECTION).insertOne(newContact, function(err, doc) {
         if (err) {
           handleError(res, err.message, "Failed to create new contact.");
