@@ -6,6 +6,7 @@ var ObjectID = mongodb.ObjectID;
 const path = require('path');
 
 var CONTACTS_COLLECTION = "contacts";
+var COUNTERS_COLLECTION = "counters";
 
 const app = express();
 app.use(bodyParser.json());
@@ -64,9 +65,25 @@ function handleError(res, reason, message, code) {
       });
   });
   
+    
   app.post("/api/contacts", function(req, res) {
+    //   create a function getNextSequenceValue which will take the sequence name as its input, 
+    //   increment the sequence number by 1 and return the updated sequence number. In this case, 
+    //   the sequence name is heroid.
+    function getNextSequenceValue(sequenceName){
+
+        var sequenceDocument = db.counters.findAndModify({
+        query:{_id: sequenceName },
+        update: {$inc:{sequence_value:1}},
+        new:true
+        });
+        
+        return sequenceDocument.sequence_value;
+    }
+
     var newContact = req.body;
     newContact.createDate = new Date();
+    newContact._id = getNextSequenceValue("heroid");
   
     if (!req.body.name) {
       handleError(res, "Invalid user input", "Must provide a name.", 400);
