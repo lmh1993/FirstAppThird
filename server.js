@@ -71,11 +71,11 @@ function handleError(res, reason, message, code) {
     //   increment the sequence number by 1 and return the updated sequence number. In this case, 
     //   the sequence name is heroid.
     function getNextSequenceValue(sequenceName){
-
-        var sequenceDocument = db.counters.findAndModify({
-        query:{_id: sequenceName },
-        update: {$inc:{sequence_value:1}},
-        new:true
+        
+        var sequenceDocument = db.collection(COUNTERS_COLLECTION).findAndModify({
+            query:{_id: sequenceName },
+            update: {$inc:{sequence_value:1}},
+            new:true
         });
         
         return sequenceDocument.sequence_value;
