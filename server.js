@@ -71,7 +71,7 @@ function handleError(res, reason, message, code) {
     //   increment the sequence number by 1 and return the updated sequence number. In this case, 
     //   the sequence name is heroid.
     function getNextSequenceValue(sequenceName){
-        
+
         var sequenceDocument = db.collection(COUNTERS_COLLECTION).findAndModify({
             query:{_id: sequenceName },
             update: {$inc:{sequence_value:1}},
@@ -83,11 +83,12 @@ function handleError(res, reason, message, code) {
 
     var newContact = req.body;
     newContact.createDate = new Date();
-    newContact._id = getNextSequenceValue("heroid");
+    newContact._id = 10;
   
     if (!req.body.name) {
       handleError(res, "Invalid user input", "Must provide a name.", 400);
     } else {
+
       db.collection(CONTACTS_COLLECTION).insertOne(newContact, function(err, doc) {
         if (err) {
           handleError(res, err.message, "Failed to create new contact.");
