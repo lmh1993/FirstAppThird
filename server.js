@@ -100,8 +100,9 @@ function handleError(res, reason, message, code) {
   app.put("/api/contacts/:id", function(req, res) {
     var updateDoc = req.body;
     delete updateDoc._id;
+    var newvalues = { $set: updateDoc };
   
-    db.collection(CONTACTS_COLLECTION).updateOne({_id: new ObjectID(req.params.id)}, updateDoc, function(err, doc) {
+    db.collection(CONTACTS_COLLECTION).updateOne({_id: new ObjectID(req.params.id)}, newvalues, function(err, doc) {
       if (err) {
         handleError(res, err.message, "Failed to update contact");
       } else {
@@ -110,6 +111,7 @@ function handleError(res, reason, message, code) {
       }
     });
   });
+
   
   app.delete("/api/contacts/:id", function(req, res) {
     db.collection(CONTACTS_COLLECTION).deleteOne({_id: new ObjectID(req.params.id)}, function(err, result) {
