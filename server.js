@@ -89,11 +89,11 @@ function handleError(res, reason, message, code) {
     } else {
         newContact._id = function getNextSequenceValue(){
 
-            var sequenceDocument = db.collection(COUNTERS_COLLECTION).findAndModify({
-                query:{_id: "heroid" },
-                update:{$inc:{sequence_value:1}},
-                new:true
-            });
+            // var sequenceDocument = db.collection(COUNTERS_COLLECTION).findAndModify({
+            //     query:{_id: "heroid" },
+            //     update:{$inc:{sequence_value:1}},
+            //     new:true
+            // });
             return 100100;
             //return sequenceDocument.sequence_value;
         };
