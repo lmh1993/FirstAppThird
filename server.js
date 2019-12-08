@@ -87,14 +87,14 @@ function handleError(res, reason, message, code) {
         //   increment the sequence number by 1 and return the updated sequence number. In this case, 
         //   the sequence name is heroid.
         
-        // db.collection(COUNTERS_COLLECTION).updateOne({_id: "heroid"}, {sequence_value:1}, function(err, doc) {
-        //     if (err) {
-        //       handleError(res, err.message, "Failed to update contact");
-        //     } else {
-        //       updateDoc._id = req.params.id;
-        //       res.status(200).json(updateDoc);
-        //     }
-        //   });
+        db.collection(COUNTERS_COLLECTION).updateOne({_id: "heroid"}, {sequence_value:1}, function(err, doc) {
+            if (err) {
+              handleError(res, err.message, "Failed to update contact");
+            } else {
+              updateDoc._id = req.params.id;
+              res.status(200).json(updateDoc);
+            }
+          });
 
         db.collection(COUNTERS_COLLECTION).findAndModify({
             query:{"_id": "heroid" },
