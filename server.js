@@ -86,7 +86,7 @@ function handleError(res, reason, message, code) {
         //     return sequenceDocument.sequence_value;
         // })();
 
-        db.collection(COUNTERS_COLLECTION).insertOne(newContact, function(err, doc) {
+        db.collection(COUNTACTS_COLLECTION).insertOne(newContact, function(err, doc) {
         if (err) {
           handleError(res, err.message, "Failed to create new contact.");
         } else {
