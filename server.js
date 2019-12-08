@@ -93,14 +93,14 @@ function handleError(res, reason, message, code) {
             new:true
          });
 
-        newContact._id = (function getNextSequenceValue(){
-            var sequenceDocument = db.collection(COUNTERS_COLLECTION).findAndModify({
-                        query:{_id: "heroid" },
-                        update:{$inc:{sequence_value:1}},
-                        new:true
-                    });
-            return sequenceDocument.sequence_value;
-        })();
+        // newContact._id = (function getNextSequenceValue(){
+        //     var sequenceDocument = db.collection(COUNTERS_COLLECTION).findAndModify({
+        //                 query:{_id: "heroid" },
+        //                 update:{$inc:{sequence_value:1}},
+        //                 new:true
+        //             });
+        //     return sequenceDocument.sequence_value;
+        // })();
 
         db.collection(CONTACTS_COLLECTION).insertOne(newContact, function(err, doc) {
         if (err) {
