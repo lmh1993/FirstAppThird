@@ -87,20 +87,18 @@ function handleError(res, reason, message, code) {
         //   increment the sequence number by 1 and return the updated sequence number. In this case, 
         //   the sequence name is heroid.
         
-        db.counters.findAndModify({
+        db.collection(COUNTERS_COLLECTION).findAndModify({
             query:{_id: "heroid" },
             update: {$inc:{sequence_value:1}},
             new:true
          });
 
         newContact._id = (function getNextSequenceValue(){
-            var sequenceDocument = (function getSequenceDocument(){
-            return db.collection(COUNTERS_COLLECTION).findAndModify({
+            var sequenceDocument = db.collection(COUNTERS_COLLECTION).findAndModify({
                         query:{_id: "heroid" },
                         update:{$inc:{sequence_value:1}},
                         new:true
                     });
-            })();
             return sequenceDocument.sequence_value;
         })();
 
