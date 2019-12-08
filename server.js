@@ -66,17 +66,7 @@ function handleError(res, reason, message, code) {
       });
   });
   
-    
-    // newContact._id = (function getNextSequenceValue(){
-    //     var sequenceDocument = db.collection(COUNTERS_COLLECTION).findAndModify({
-    //         query:{_id: "heroid" },
-    //         update:{$inc:{sequence_value:1}},
-    //         new:true
-    //     });
-    //     return 1;
-    //     //return sequenceDocument.sequence_value;
-    // })();
-
+  
   app.post("/api/contacts", function(req, res) {
     var newContact = req.body;
     newContact.createDate = new Date();  
@@ -87,21 +77,6 @@ function handleError(res, reason, message, code) {
         //   increment the sequence number by 1 and return the updated sequence number. In this case, 
         //   the sequence name is heroid.
         
-        db.collection(COUNTERS_COLLECTION).updateOne({_id: "heroid"}, {sequence_value:1}, function(err, doc) {
-            if (err) {
-              handleError(res, err.message, "Failed to update contact");
-            } else {
-              updateDoc._id = req.params.id;
-              res.status(200).json(updateDoc);
-            }
-          });
-
-        db.collection(COUNTERS_COLLECTION).findAndModify({
-            query:{"_id": "heroid" },
-            update: {$inc:{"sequence_value":1}},
-            new:true
-         });
-
         // newContact._id = (function getNextSequenceValue(){
         //     var sequenceDocument = db.collection(COUNTERS_COLLECTION).findAndModify({
         //                 query:{_id: "heroid" },
@@ -111,7 +86,7 @@ function handleError(res, reason, message, code) {
         //     return sequenceDocument.sequence_value;
         // })();
 
-        db.collection(CONTACTS_COLLECTION).insertOne(newContact, function(err, doc) {
+        db.collection(COUNTERS_COLLECTION).insertOne(newContact, function(err, doc) {
         if (err) {
           handleError(res, err.message, "Failed to create new contact.");
         } else {
