@@ -67,6 +67,16 @@ function handleError(res, reason, message, code) {
   });
   
     
+    // newContact._id = (function getNextSequenceValue(){
+    //     var sequenceDocument = db.collection(COUNTERS_COLLECTION).findAndModify({
+    //         query:{_id: "heroid" },
+    //         update:{$inc:{sequence_value:1}},
+    //         new:true
+    //     });
+    //     return 1;
+    //     //return sequenceDocument.sequence_value;
+    // })();
+
   app.post("/api/contacts", function(req, res) {
     var newContact = req.body;
     newContact.createDate = new Date();  
@@ -77,13 +87,13 @@ function handleError(res, reason, message, code) {
         //   increment the sequence number by 1 and return the updated sequence number. In this case, 
         //   the sequence name is heroid.
         newContact._id = (function getNextSequenceValue(){
-            var sequenceDocument = db.collection(COUNTERS_COLLECTION).findAndModify({
+            var sequenceDocument = (db.collection(COUNTERS_COLLECTION).findAndModify({
                 query:{_id: "heroid" },
                 update:{$inc:{sequence_value:1}},
                 new:true
-            });
-            return 1;
-            //return sequenceDocument.sequence_value;
+            }))();
+            
+            return sequenceDocument.sequence_value;
         })();
 
         db.collection(CONTACTS_COLLECTION).insertOne(newContact, function(err, doc) {
