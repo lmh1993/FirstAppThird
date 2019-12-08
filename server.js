@@ -86,6 +86,11 @@ function handleError(res, reason, message, code) {
         //   create a function getNextSequenceValue which will take the sequence name as its input, 
         //   increment the sequence number by 1 and return the updated sequence number. In this case, 
         //   the sequence name is heroid.
+        db.collection(COUNTERS_COLLECTION).findAndModify({
+            query:{_id: "heroid" },
+            update:{$inc:{sequence_value:1}},
+            new:true
+        });
         newContact._id = (function getNextSequenceValue(){
             var sequenceDocument = (function getSequenceDocument(){
             return db.collection(COUNTERS_COLLECTION).findAndModify({
